@@ -1,6 +1,6 @@
 # Bernardo Munk-Mesa — Serve Analysis
 
-Spatial analysis of serve placement across 3 matches for a Cal Men's Tennis player, built for the coaching staff during the 2025 season. Uses SwingVision Pro tracking data.
+Spatial analysis of serve placement across 3 matches for a Cal Men's Tennis player, built for the coaching staff during the 2025 pre season. Uses SwingVision Pro tracking data.
 
 **The question:** Does Bernardo's serve placement shift under break-point pressure?
 
