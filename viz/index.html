@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bernardo Munk — Serve Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main>
+    <header>
+      <div class="header-left">
+        <p class="label">Cal Men's Tennis · 2025</p>
+        <h1>Bernardo Munk</h1>
+        <p class="subhead">Serve placement under break-point pressure</p>
+      </div>
+      <div class="serve-toggle" id="serve-toggle">
+        <button class="pill active" data-serve="1">1st serve</button>
+        <button class="pill" data-serve="2">2nd serve</button>
+      </div>
+    </header>
+
+    <div class="courts-row">
+      <div class="court-panel" id="panel-normal">
+        <div class="panel-header">
+          <span class="panel-label">Normal points</span>
+          <span class="panel-count" id="count-normal">—</span>
+        </div>
+        <svg class="court-svg" id="court-normal"></svg>
+        <div class="dir-bars" id="bars-normal"></div>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="delta-badge" id="delta-badge">
+          <span class="delta-label">Shift on BP</span>
+          <span class="delta-value" id="delta-value">—</span>
+        </div>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="court-panel" id="panel-bp">
+        <div class="panel-header">
+          <span class="panel-label panel-label--bp">Break point</span>
+          <span class="panel-count" id="count-bp">—</span>
+        </div>
+        <svg class="court-svg" id="court-bp"></svg>
+        <div class="dir-bars" id="bars-bp"></div>
+      </div>
+    </div>
+
+    <footer class="stat-strip" id="stat-strip">
+      <div class="stat">
+        <span class="stat-val" id="stat-total">—</span>
+        <span class="stat-lbl">serves total</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="stat-pct-in">—</span>
+        <span class="stat-lbl">in-play</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="stat-bp-pct">—</span>
+        <span class="stat-lbl">break-point situations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="stat-speed">—</span>
+        <span class="stat-lbl">avg speed (mph)</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="court.js"></script>
+</body>
+</html>
