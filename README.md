@@ -49,4 +49,4 @@ cd ../viz && python3 -m http.server 8765
 
 ---
 
-Built as part of the Cal Sports Analytics Club, Spring 2025.
+Built as part of the Cal Sports Analytics Club, Fall 2025.
