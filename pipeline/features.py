@@ -1,15 +1,6 @@
 """
-Feature engineering on top of raw SwingVision shot data.
-
-Two strategies for break-point detection, applied depending on data quality:
-
-  A) Points sheet available  → use SwingVision's own Break Point flag.
-     Join Shots → Points on (match_file, point) to get the flag directly.
-
-  B) No Points sheet (or empty) → reconstruct game structure from serve
-     sequence. SwingVision sets Set=0, Game=0 for sessions recorded without
-     score tracking, but Point increments per rally. We detect game boundaries
-     by watching when the server changes, then walk point scores to flag BP.
+Break-point detection uses two strategies: read from SwingVision's Points sheet
+when available, otherwise reconstruct game boundaries from serve-sequence changes.
 """
 
 import pandas as pd
@@ -18,8 +9,6 @@ import numpy as np
 
 PLAYER = "Bernardo Munk-Mesa"
 
-
-# ── serve classification ──────────────────────────────────────────────────────
 
 def serve_number(type_str: str) -> int:
     t = str(type_str).lower()
@@ -45,14 +34,7 @@ def classify_direction(direction: str) -> str:
     return "Other"
 
 
-# ── strategy A: join from Points sheet ───────────────────────────────────────
-
 def bp_from_points_sheet(shots: pd.DataFrame, points: pd.DataFrame) -> pd.DataFrame:
-    """
-    When SwingVision exported a Points sheet with a Break Point column,
-    join it to the serve rows by (match_file, point).
-    Returns only rows that matched.
-    """
     if points.empty or "break_point" not in points.columns:
         return pd.DataFrame()
 
@@ -62,33 +44,27 @@ def bp_from_points_sheet(shots: pd.DataFrame, points: pd.DataFrame) -> pd.DataFr
     return bp_map.rename(columns={"break_point": "is_break_point"})
 
 
-# ── strategy B: reconstruct from serve sequence ───────────────────────────────
-
 def _last_shot_per_point(shots: pd.DataFrame) -> pd.DataFrame:
     key = ["match_file", "point"] if "match_file" in shots.columns else ["point"]
     return shots.sort_values("shot").groupby(key, as_index=False).last()
 
 
 def _server_won(last_shot_player: str, last_shot_result: str, server_name: str) -> bool:
-    """Infer whether the server won a point from the final shot of that rally."""
-    hit_in       = str(last_shot_result).lower() == "in"
+    hit_in = str(last_shot_result).lower() == "in"
     hitter_is_sv = server_name.lower() in str(last_shot_player).lower()
-    return hitter_is_sv == hit_in   # server wins if they hit in, or opponent errors
+    return hitter_is_sv == hit_in
 
 
 def _detect_game_boundaries(shots: pd.DataFrame, server_name: str) -> pd.DataFrame:
     """
-    Reconstruct game-level groupings for files where Set=Game=0 (SwingVision
-    recorded without score tracking). A new game starts whenever the server
-    changes from one point to the next.
-
-    Returns columns: match_file, point, server, inferred_game
+    SwingVision sets Set=Game=0 when score isn't tracked, but Point still
+    increments per rally. Detect game boundaries by watching when the server
+    changes across sequential points.
     """
     serve_types = {"serve", "first_serve", "second_serve"}
     sv_shots = shots[shots["type"].isin(serve_types)].sort_values("point")
 
     key = ["match_file", "point"] if "match_file" in shots.columns else ["point"]
-    # One server per point (first serve shot recorded)
     server_by_pt = sv_shots.groupby(key, as_index=False)["player"].first().rename(
         columns={"player": "server"}
     )
@@ -112,10 +88,7 @@ def _is_break_point(server_pts: int, recv_pts: int) -> bool:
 
 
 def bp_from_reconstruction(shots: pd.DataFrame, server_name: str) -> pd.DataFrame:
-    """
-    Walk reconstructed games for server_name's service games and flag break points.
-    """
-    game_map   = _detect_game_boundaries(shots, server_name)
+    game_map = _detect_game_boundaries(shots, server_name)
     last_shots = _last_shot_per_point(shots)
 
     key = ["match_file", "point"] if "match_file" in shots.columns else ["point"]
@@ -136,7 +109,7 @@ def bp_from_reconstruction(shots: pd.DataFrame, server_name: str) -> pd.DataFram
         for row in grp.sort_values("point").itertuples(index=False):
             records.append({
                 **{c: getattr(row, c) for c in key},
-                "inferred_game":  row.inferred_game,
+                "inferred_game": row.inferred_game,
                 "is_break_point": _is_break_point(sp, rp),
             })
             if row.server_won:
@@ -147,16 +120,8 @@ def bp_from_reconstruction(shots: pd.DataFrame, server_name: str) -> pd.DataFram
     return pd.DataFrame(records) if records else pd.DataFrame()
 
 
-# ── main pipeline step ────────────────────────────────────────────────────────
-
 def build_serve_df(shots: pd.DataFrame, points: pd.DataFrame,
                    server_name: str = PLAYER) -> pd.DataFrame:
-    """
-    Filter shots to server_name's serves and attach:
-      - serve_num (1 or 2)
-      - direction_label (T / Wide / Body / Other)
-      - is_break_point (from Points sheet when available, else reconstructed)
-    """
     is_server = shots["player"].str.contains(server_name, case=False, na=False)
     is_serve  = (
         shots["type"].str.contains("serve", na=False)
