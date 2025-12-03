@@ -1,25 +1,16 @@
-/* ─── tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  --bg:          #F2EFE9;
-  --surface:     #FFFFFF;
-  --court:       #1B2D3E;
-  --court-line:  rgba(255 255 255 / 0.65);
-  --net:         rgba(255 255 255 / 0.9);
-
-  --blue-hi:     #4FABF7;   /* normal-serve density peak */
-  --amber-hi:    #F5A84A;   /* break-point density peak */
-
-  --ink:         #1B2D3E;
-  --muted:       #7A8693;
-  --rule:        rgba(27 45 62 / 0.12);
-
-  --bp-label:    #C87418;   /* amber label text */
-
-  --font:        "Inter", system-ui, sans-serif;
-  --font-tight:  "Inter Tight", "Inter", system-ui, sans-serif;
+  --bg: #F2EFE9;
+  --court: #1B2D3E;
+  --blue-hi: #4FABF7;
+  --amber-hi: #F5A84A;
+  --ink: #1B2D3E;
+  --muted: #7A8693;
+  --rule: rgba(27 45 62 / 0.12);
+  --bp-label: #C87418;
+  --font: "Inter", system-ui, sans-serif;
+  --font-tight: "Inter Tight", "Inter", system-ui, sans-serif;
 }
 
-/* ─── reset & base ──────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -40,7 +31,6 @@ main {
   gap: 32px;
 }
 
-/* ─── header ─────────────────────────────────────────────────────────────── */
 header {
   display: flex;
   justify-content: space-between;
@@ -72,7 +62,6 @@ h1 {
   margin-top: 6px;
 }
 
-/* ─── serve toggle ───────────────────────────────────────────────────────── */
 .serve-toggle {
   display: flex;
   gap: 6px;
@@ -100,15 +89,12 @@ h1 {
   color: #fff;
 }
 
-/* ─── courts row ─────────────────────────────────────────────────────────── */
 .courts-row {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 0;
   align-items: start;
 }
 
-/* ─── single court panel ─────────────────────────────────────────────────── */
 .court-panel {
   display: flex;
   flex-direction: column;
@@ -145,14 +131,13 @@ h1 {
   overflow: visible;
 }
 
-/* ─── divider / delta badge ──────────────────────────────────────────────── */
 .divider {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   padding: 0 20px;
-  padding-top: 44px;  /* align with court top after panel-header */
+  padding-top: 44px;
 }
 
 .divider-line {
@@ -187,26 +172,10 @@ h1 {
   white-space: nowrap;
 }
 
-/* ─── direction bars ─────────────────────────────────────────────────────── */
 .dir-bars {
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.dir-row {
-  display: grid;
-  grid-template-columns: 28px 1fr auto;
-  align-items: center;
-  gap: 8px;
-}
-
-.dir-side {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
 .dir-track {
@@ -214,7 +183,6 @@ h1 {
   background: rgba(27 45 62 / 0.08);
   border-radius: 99px;
   overflow: hidden;
-  position: relative;
 }
 
 .dir-segments {
@@ -225,18 +193,6 @@ h1 {
 }
 
 .dir-seg { height: 100%; transition: width 0.35s ease; }
-.dir-seg--t    { background: #4FABF7; }
-.dir-seg--wide { background: #74C476; }
-.dir-seg--body { background: #F08080; }
-
-.dir-pct {
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
-  color: var(--muted);
-  white-space: nowrap;
-  min-width: 32px;
-  text-align: right;
-}
 
 .dir-legend {
   display: flex;
@@ -259,10 +215,8 @@ h1 {
   flex-shrink: 0;
 }
 
-/* ─── stat strip ─────────────────────────────────────────────────────────── */
 .stat-strip {
   display: flex;
-  gap: 0;
   border-top: 1px solid var(--rule);
   padding-top: 20px;
 }
@@ -294,15 +248,6 @@ h1 {
   color: var(--muted);
 }
 
-/* ─── empty state ────────────────────────────────────────────────────────── */
-.empty-msg {
-  fill: rgba(255 255 255 / 0.25);
-  font-size: 11px;
-  font-family: var(--font);
-  text-anchor: middle;
-}
-
-/* ─── responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 620px) {
   header { flex-direction: column; align-items: flex-start; }
   .courts-row { grid-template-columns: 1fr; }
