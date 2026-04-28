@@ -12,7 +12,7 @@ Spatial analysis of serve placement across 3 matches for a Cal Men's Tennis play
 
 Interactive D3.js court diagram with kernel density estimation on serve landing coordinates. Side-by-side comparison of serve placement on normal points vs. break-point situations.
 
-→ [Live demo](https://yourusername.github.io/tennis-analytics)
+→ [Live demo](https://annabhogra.github.io/Tennis-Analytics/viz/)
 
 ![screenshot](viz/screenshot.png)
 
