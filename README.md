@@ -14,8 +14,6 @@ Interactive D3.js court diagram with kernel density estimation on serve landing 
 
 → [Live demo](https://annabhogra.github.io/Tennis-Analytics/viz/)
 
-![screenshot](viz/screenshot.png)
-
 ## Pipeline
 
 ```
