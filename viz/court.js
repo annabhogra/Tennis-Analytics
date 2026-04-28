@@ -188,13 +188,13 @@ const normalPanel = makeCourt("court-normal", "#4FABF7");
 const bpPanel = makeCourt("court-bp", "#F5A84A");
 
 let DATA = null;
-let activeServe = 1;
+let activeSide = "both";
 
-function update(serveNum) {
+function update(side) {
   if (!DATA) return;
 
   const { points, direction_breakdown } = DATA;
-  const filtered = points.filter(d => d.serve_num === serveNum);
+  const filtered = side === "both" ? points : points.filter(d => d.bounce_zone === side);
   const normal = filtered.filter(d => !d.is_break_point);
   const bp = filtered.filter(d => d.is_break_point);
 
@@ -205,11 +205,10 @@ function update(serveNum) {
   d3.select("#count-normal").text(fmt(normal));
   d3.select("#count-bp").text(fmt(bp));
 
-  const bkey = `s${serveNum}`;
-  renderDirBars("bars-normal", direction_breakdown?.[`${bkey}_normal`]);
-  renderDirBars("bars-bp", direction_breakdown?.[`${bkey}_break_point`]);
+  renderDirBars("bars-normal", direction_breakdown?.["s1_normal"]);
+  renderDirBars("bars-bp", direction_breakdown?.["s1_break_point"]);
 
-  const delta = computeDelta(direction_breakdown, bkey);
+  const delta = computeDelta(direction_breakdown, "s1");
   if (delta && Math.abs(delta.delta) >= 1) {
     const sign = delta.delta > 0 ? "+" : "";
     d3.select("#delta-value").text(`${sign}${Math.round(delta.delta)}% ${delta.dir}`);
@@ -234,14 +233,14 @@ function update(serveNum) {
 d3.select("#serve-toggle").selectAll(".pill").on("click", function () {
   d3.select("#serve-toggle").selectAll(".pill").classed("active", false);
   d3.select(this).classed("active", true);
-  activeServe = +this.dataset.serve;
-  update(activeServe);
+  activeSide = this.dataset.side;
+  update(activeSide);
 });
 
 
 d3.json("data.json").then(data => {
   DATA = data;
-  update(activeServe);
+  update(activeSide);
 }).catch(() => {
   normalPanel.update([]);
   bpPanel.update([]);
