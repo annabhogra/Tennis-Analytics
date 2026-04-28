@@ -1,84 +1,85 @@
 :root {
-  --bg: #F2EFE9;
-  --court: #1B2D3E;
-  --blue-hi: #4FABF7;
-  --amber-hi: #F5A84A;
-  --ink: #1B2D3E;
-  --muted: #7A8693;
-  --rule: rgba(27 45 62 / 0.12);
-  --bp-label: #C87418;
-  --font: "Inter", system-ui, sans-serif;
-  --font-tight: "Inter Tight", "Inter", system-ui, sans-serif;
+  --bg: #f5f2ec;
+  --court: #1a3a28;
+  --blue-hi: #2358a0;
+  --gold-hi: #e8a800;
+  --ink: #181818;
+  --muted: #6b6b6b;
+  --rule: rgba(24 24 24 / 0.11);
+  --bp-label: #9c6b00;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: var(--font);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   background: var(--bg);
   color: var(--ink);
   min-height: 100svh;
   display: grid;
   place-items: start center;
-  padding: 40px 24px 56px;
+  padding: 44px 24px 60px;
 }
 
 main {
   width: 100%;
-  max-width: 900px;
+  max-width: 880px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 24px;
+  gap: 20px;
 }
 
 .label {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 h1 {
-  font-family: var(--font-tight);
-  font-size: clamp(28px, 5vw, 42px);
-  font-weight: 800;
-  line-height: 1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 4.5vw, 40px);
+  font-weight: normal;
+  font-style: italic;
+  line-height: 1.05;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .subhead {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--muted);
-  margin-top: 6px;
+  margin-top: 7px;
+  letter-spacing: 0.01em;
 }
 
 .serve-toggle {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   flex-shrink: 0;
 }
 
 .pill {
-  padding: 8px 18px;
-  border-radius: 100px;
-  border: 1.5px solid var(--rule);
+  padding: 7px 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(24 24 24 / 0.22);
   background: transparent;
-  font-family: var(--font);
-  font-size: 13px;
+  font-family: inherit;
+  font-size: 12px;
   font-weight: 500;
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
+  letter-spacing: 0.01em;
 }
 
 .pill:hover { border-color: var(--ink); color: var(--ink); }
@@ -98,7 +99,7 @@ h1 {
 .court-panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
 }
 
 .panel-header {
@@ -108,9 +109,9 @@ h1 {
 }
 
 .panel-label {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -118,16 +119,17 @@ h1 {
 .panel-label--bp { color: var(--bp-label); }
 
 .panel-count {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 .court-svg {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 4px;
+  border-radius: 2px;
   overflow: visible;
 }
 
@@ -136,39 +138,39 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 0 20px;
-  padding-top: 44px;
+  padding: 0 18px;
+  padding-top: 40px;
 }
 
 .divider-line {
   width: 1px;
   flex: 1;
   background: var(--rule);
-  min-height: 40px;
+  min-height: 36px;
 }
 
 .delta-badge {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   text-align: center;
 }
 
 .delta-label {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
 }
 
 .delta-value {
-  font-family: var(--font-tight);
-  font-size: 20px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--amber-hi);
+  color: var(--gold-hi);
   white-space: nowrap;
 }
 
@@ -179,25 +181,26 @@ h1 {
 }
 
 .dir-track {
-  height: 5px;
-  background: rgba(27 45 62 / 0.08);
-  border-radius: 99px;
+  height: 4px;
+  background: rgba(24 24 24 / 0.07);
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .dir-segments {
   display: flex;
   height: 100%;
-  border-radius: 99px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
-.dir-seg { height: 100%; transition: width 0.35s ease; }
+.dir-seg { height: 100%; transition: width 0.3s ease; }
 
 .dir-legend {
   display: flex;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 3px;
+  flex-wrap: wrap;
 }
 
 .dir-legend-item {
@@ -209,34 +212,41 @@ h1 {
 }
 
 .dir-legend-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+.win-rate {
+  color: #3d8a55;
+  font-size: 9.5px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 .stat-strip {
   display: flex;
   border-top: 1px solid var(--rule);
-  padding-top: 20px;
+  padding-top: 18px;
+  gap: 0;
 }
 
 .stat {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-right: 24px;
+  gap: 3px;
+  padding-right: 20px;
 }
 
 .stat + .stat {
-  padding-left: 24px;
+  padding-left: 20px;
   border-left: 1px solid var(--rule);
 }
 
 .stat-val {
-  font-family: var(--font-tight);
-  font-size: 24px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
@@ -244,8 +254,9 @@ h1 {
 }
 
 .stat-lbl {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
+  letter-spacing: 0.01em;
 }
 
 @media (max-width: 620px) {
@@ -253,6 +264,6 @@ h1 {
   .courts-row { grid-template-columns: 1fr; }
   .divider { flex-direction: row; padding: 0; }
   .divider-line { width: auto; height: 1px; flex: 1; min-height: unset; }
-  .stat-strip { flex-wrap: wrap; gap: 16px; }
+  .stat-strip { flex-wrap: wrap; gap: 14px; }
   .stat { flex: 1 1 40%; padding: 0; border: none !important; }
 }

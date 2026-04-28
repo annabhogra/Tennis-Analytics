@@ -49,6 +49,27 @@ def direction_breakdown(serves: pd.DataFrame) -> dict:
     return out
 
 
+def win_rates(serves: pd.DataFrame) -> dict:
+    """Point win % by direction label, split by pressure condition."""
+    out = {}
+    for label, flag in (("all", None), ("break_point", True), ("normal", False)):
+        sub = serves[serves["result"] == "in"]
+        if flag is not None:
+            sub = sub[sub["is_break_point"] == flag]
+        dir_stats = {}
+        for d in ("T", "Wide", "Body"):
+            d_sub = sub[sub["direction_label"] == d]
+            n = len(d_sub)
+            won = int(d_sub["server_won"].sum()) if "server_won" in d_sub.columns and n > 0 else 0
+            dir_stats[d] = {
+                "n": n,
+                "won": won,
+                "win_pct": round(won / n * 100, 1) if n > 0 else None,
+            }
+        out[f"s1_{label}"] = dir_stats
+    return out
+
+
 def run(data_dir: str, player: str, out_path: str) -> None:
     shots, points = load_matches(data_dir)
     serves = build_serve_df(shots, points, server_name=player)
@@ -73,6 +94,7 @@ def run(data_dir: str, player: str, out_path: str) -> None:
         "court":               COURT,
         "n_matches":           serves["match_file"].nunique() if "match_file" in serves.columns else 1,
         "direction_breakdown": direction_breakdown(serves),
+        "win_rates":           win_rates(serves),
         "points":              points_out,
     }
 

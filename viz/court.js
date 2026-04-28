@@ -23,8 +23,8 @@ function makeCourt(svgId, densityColor) {
 
   g.append("rect")
     .attr("width", innerW).attr("height", innerH)
-    .attr("fill", "#192C3B")
-    .attr("rx", 3);
+    .attr("fill", "#1a3a28")
+    .attr("rx", 2);
 
   // faint T-zone hints
   const tWidth = xS(1.4) - xS(0);
@@ -50,7 +50,7 @@ function makeCourt(svgId, densityColor) {
     sel.attr("text-anchor", "middle")
        .attr("fill", `rgba(255,255,255,${opacity})`)
        .attr("font-size", 8.5)
-       .attr("font-family", "Inter, system-ui, sans-serif")
+       .attr("font-family", "-apple-system, BlinkMacSystemFont, sans-serif")
        .attr("letter-spacing", "0.07em");
 
   const labelY = yS(SVC_Y) - 7;
@@ -65,7 +65,7 @@ function makeCourt(svgId, densityColor) {
   const emptyLabel = g.append("text")
     .attr("x", innerW / 2).attr("y", innerH / 2)
     .attr("text-anchor", "middle")
-    .attr("font-size", 11).attr("font-family", "Inter, system-ui, sans-serif")
+    .attr("font-size", 11).attr("font-family", "-apple-system, BlinkMacSystemFont, sans-serif")
     .attr("fill", "rgba(255,255,255,0.2)");
 
   const colorScale = d3.scaleSequential()
@@ -118,9 +118,9 @@ function makeCourt(svgId, densityColor) {
 }
 
 
-const DIR_COLORS = { T: "#4FABF7", Wide: "#63C77D", Body: "#F08080", Other: "#AAA" };
+const DIR_COLORS = { T: "#2358a0", Wide: "#3d8a55", Body: "#b85a5a", Other: "#999" };
 
-function renderDirBars(containerId, data) {
+function renderDirBars(containerId, data, winData) {
   const el = document.getElementById(containerId);
   if (!el) return;
   el.innerHTML = "";
@@ -158,11 +158,12 @@ function renderDirBars(containerId, data) {
   dirs.forEach(dir => {
     const pct = data[dir]?.pct ?? 0;
     if (pct === 0) return;
+    const win = winData?.[dir]?.win_pct;
     const item = document.createElement("div");
     item.className = "dir-legend-item";
     item.innerHTML = `
       <div class="dir-legend-dot" style="background:${DIR_COLORS[dir]}"></div>
-      <span>${dir} <strong>${Math.round(pct)}%</strong></span>
+      <span>${dir} <strong>${Math.round(pct)}%</strong>${win != null ? ` · <span class="win-rate">${Math.round(win)}% won</span>` : ""}</span>
     `;
     labels.appendChild(item);
   });
@@ -184,8 +185,8 @@ function computeDelta(breakdown, serveKey) {
 }
 
 
-const normalPanel = makeCourt("court-normal", "#4FABF7");
-const bpPanel = makeCourt("court-bp", "#F5A84A");
+const normalPanel = makeCourt("court-normal", "#2358a0");
+const bpPanel = makeCourt("court-bp", "#e8a800");
 
 let DATA = null;
 let activeSide = "both";
@@ -205,8 +206,9 @@ function update(side) {
   d3.select("#count-normal").text(fmt(normal));
   d3.select("#count-bp").text(fmt(bp));
 
-  renderDirBars("bars-normal", direction_breakdown?.["s1_normal"]);
-  renderDirBars("bars-bp", direction_breakdown?.["s1_break_point"]);
+  const wr = DATA.win_rates;
+  renderDirBars("bars-normal", direction_breakdown?.["s1_normal"], wr?.["s1_normal"]);
+  renderDirBars("bars-bp",     direction_breakdown?.["s1_break_point"], wr?.["s1_break_point"]);
 
   const delta = computeDelta(direction_breakdown, "s1");
   if (delta && Math.abs(delta.delta) >= 1) {

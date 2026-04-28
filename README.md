@@ -2,9 +2,9 @@
 
 Spatial analysis of serve placement across 3 matches for a Cal Men's Tennis player, built for the coaching staff during the 2025 pre season. Uses SwingVision Pro tracking data.
 
-**The question:** Does Bernardo's serve placement shift under break-point pressure?
+**The question:** Does Bernardo's serve placement shift under break-point pressure, and does it work?
 
-**Finding:** On 1st serve, he goes 8% more toward Wide and 8% less toward the T on break points — a consistent tactical shift across matches.
+**Finding:** Under break-point pressure he shifts 8% more toward Wide — and Wide serves win 64% of break-point points vs. 44% for T serves. The instinct is correct.
 
 ---
 

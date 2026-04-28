@@ -116,6 +116,59 @@
       }
     }
   },
+  "win_rates": {
+    "s1_all": {
+      "T": {
+        "n": 59,
+        "won": 33,
+        "win_pct": 55.9
+      },
+      "Wide": {
+        "n": 55,
+        "won": 31,
+        "win_pct": 56.4
+      },
+      "Body": {
+        "n": 0,
+        "won": 0,
+        "win_pct": null
+      }
+    },
+    "s1_break_point": {
+      "T": {
+        "n": 9,
+        "won": 4,
+        "win_pct": 44.4
+      },
+      "Wide": {
+        "n": 11,
+        "won": 7,
+        "win_pct": 63.6
+      },
+      "Body": {
+        "n": 0,
+        "won": 0,
+        "win_pct": null
+      }
+    },
+    "s1_normal": {
+      "T": {
+        "n": 50,
+        "won": 29,
+        "win_pct": 58.0
+      },
+      "Wide": {
+        "n": 44,
+        "won": 24,
+        "win_pct": 54.5
+      },
+      "Body": {
+        "n": 0,
+        "won": 0,
+        "win_pct": null
+      }
+    }
+  },
   "points": [
     {
       "bounce_x": -2.620254,

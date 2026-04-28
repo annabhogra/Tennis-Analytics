@@ -76,7 +76,9 @@ def _detect_game_boundaries(shots: pd.DataFrame, server_name: str) -> pd.DataFra
         sub["inferred_game"] = (sub["server"] != sub["server"].shift()).cumsum()
         return sub
 
-    return server_by_pt.groupby(group_cols, group_keys=False).apply(assign_games)
+    if group_cols:
+        return server_by_pt.groupby(group_cols, group_keys=False).apply(assign_games).reset_index(drop=True)
+    return assign_games(server_by_pt)
 
 
 def _is_break_point(server_pts: int, recv_pts: int) -> bool:
@@ -163,4 +165,12 @@ def build_serve_df(shots: pd.DataFrame, points: pd.DataFrame,
             serves["is_break_point"] = False
 
     serves["is_break_point"] = serves["is_break_point"].infer_objects(copy=False).fillna(False).astype(bool)
+
+    # Point outcome — did Bernardo win the point?
+    last = _last_shot_per_point(shots)
+    last["server_won"] = last.apply(
+        lambda r: _server_won(r["player"], r["result"], server_name), axis=1
+    )
+    serves = serves.merge(last[key + ["server_won"]], on=key, how="left")
+
     return serves
